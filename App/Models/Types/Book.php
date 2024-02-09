@@ -1,7 +1,8 @@
 <?php
 
 
-namespace App\Models;
+namespace App\Models\Types;
+use App\Models\Product;
 
 class Book extends Product{
     public function setWeight($weight)
@@ -17,13 +18,14 @@ class Book extends Product{
         return $this->weight;
     }
     
-    public function filldata($data)
+    public function fillData(array $data): void
     {
         $this->setName($data['name']);
         $this->setPrice($data['price']);
         $this->setSku($data['sku']);
         $this->setWeight($data['weight']);
     }
+
 
     public function getData(): array
     {

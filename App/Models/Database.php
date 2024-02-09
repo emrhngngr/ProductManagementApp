@@ -47,11 +47,30 @@ class Database
         }
     }
 
-    // Diğer veritabanı işlemleri için gerekli metodlar eklenebilir...
-
-    public function escapeString($string)
+    public function insertProduct(Product $product)
     {
-        return $this->connection->real_escape_string($string);
+        $data = $product->getData();
+
+        $existingProduct = $this->fetch("SELECT * FROM products WHERE sku = '{$data['sku']}'");
+
+        if ($existingProduct) {
+            return false;
+        }
+
+        $sql = "INSERT INTO products (sku, name, price, type, attribute) VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ssdss", $data['sku'], $data['name'], $data['price'], $data['type'], $data['attribute']);
+
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return false;
+        }
     }
 
     public function close()

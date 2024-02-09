@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="product_form.php" method="post" id="product_form">
+    <form action="/scandiweb/addproduct" method="post" id="product_form">
     <div class="navbar">
         <h1>Product Add</h1>
         <div class="buttons">
@@ -66,7 +66,7 @@
             
             <div class="fieldbox" id="Book-f">
             <label>Weight (KG)</label>
-            <input type="number" name="weight"><br>
+            <input type="number" name="weight" id="weight"><br>
             <p>Please, provide weight</p>
             </div>
         </div>
@@ -89,6 +89,51 @@
             Book.style.display="block";
             }
         }
+
+        function validateForm() {
+            var sku = document.getElementById("sku").value;
+            var name = document.getElementById("name").value;
+            var price = document.getElementById("price").value;
+            var productType = document.getElementById("productType").value;
+            var weight = document.getElementById("weight").value;
+            var height = document.getElementById("height").value;
+            var width =document.getElementById("width").value;
+            var lenght =document.getElementById("lenght").value;
+            var size =document.getElementById("size").value;
+
+
+            if (sku === "" || name === "" || price === "" || productType === "") {
+                alert("Please, submit required data");
+                return false;
+            }
+
+            if (productType === "Book") {
+                if (weight === "") {
+                    alert("Please, provide weight");
+                    return false;
+                }
+            }
+            if (productType === "Furniture") {
+                if (height === "" || length === "" || width === "") {
+                    alert("Please, provide dimension HxHxH");
+                    return false;
+                }
+            }
+            if (productType === "DVD") {
+                if (size === "") {
+                    alert("Please, provide size(MB)");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        document.getElementById("product_form").addEventListener("submit", function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
     </script>
 
 </body>

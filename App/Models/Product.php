@@ -18,29 +18,17 @@ abstract class Product
 
     public function setSku(string $sku): void
     {
-        if (strlen($sku) > 2) {
-            $this->sku = $sku;
-        } else {
-            throw new InvalidArgumentException('SKU must be at least 3 characters long');
-        }
+        $this->sku = $sku;
     }
 
     public function setName(string $name): void
     {
-        if (strlen($name) > 1) {
-            $this->name = $name;
-        } else {
-            throw new InvalidArgumentException('Name must be at least 2 characters long');
-        }
+        $this->name = $name;
     }
 
     public function setPrice(float $price): void
     {
-        if ($price >= 0) {
-            $this->price = $price;
-        } else {
-            throw new InvalidArgumentException('Price must be a non-negative number');
-        }
+        $this->price = $price;
     }
 
     public function getPrice(): float

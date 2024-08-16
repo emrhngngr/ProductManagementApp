@@ -3,6 +3,8 @@
 
 namespace App\Models\Types;
 use App\Models\Product;
+use App\Models\Database;
+
 
 class Book extends Product{
     public function setWeight($weight)
@@ -37,4 +39,14 @@ class Book extends Product{
             'attribute' =>"Weight: " .$this->getWeight()."KG",
         ];
     }
+    public function save(Database $db): bool
+    {
+        $data = $this->getData();
+        $sql = "INSERT INTO products (sku, name, price, type, attribute) VALUES (?, ?, ?, 'Book', ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ssds", $data['sku'], $data['name'], $data['price'], $data['attribute']);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    }
+    
 }

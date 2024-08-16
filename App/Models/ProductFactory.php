@@ -2,6 +2,7 @@
 
 
 namespace App\Models;
+
 use App\Models\Types\Book;
 use App\Models\Types\DVD;
 use App\Models\Types\Furniture;
@@ -15,11 +16,12 @@ class ProductFactory {
 
     public static function createProduct($type, $params = []) {
         if (!isset(self::$productClasses[$type])) {
-            throw new Exception("Invalid product type: " . $type);
+            throw new \Exception("Invalid product type: " . $type);
         }
         $className = self::$productClasses[$type];
         return new $className(...$params);
     }
 }
+
 
 ?>

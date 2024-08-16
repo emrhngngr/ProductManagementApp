@@ -49,4 +49,6 @@ abstract class Product
     abstract public function fillData(array $data): void;
 
     abstract public function getData(): array;
+
+    abstract public function save(Database $db): bool;
 }

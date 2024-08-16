@@ -2,6 +2,8 @@
 
 namespace App\Models\Types;
 use App\Models\Product;
+use App\Models\Database;
+
 
 class Furniture extends Product
 {
@@ -63,5 +65,14 @@ class Furniture extends Product
             'type' => "Furniture",
             'attribute' =>"Dimensions: " .$this->getHeight() ."x". $this->getWidth() ."x".  $this->getLength(),
         ];
+    }
+    public function save(Database $db): bool
+    {
+        $data = $this->getData();
+        $sql = "INSERT INTO products (sku, name, price, type, attribute) VALUES (?, ?, ?, 'Furniture', ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ssds", $data['sku'], $data['name'], $data['price'], $data['attribute']);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }

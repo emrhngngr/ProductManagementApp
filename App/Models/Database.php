@@ -47,30 +47,9 @@ class Database
         }
     }
 
-    public function insertProduct(Product $product)
+        public function prepare($sql)
     {
-        $data = $product->getData();
-
-        $existingProduct = $this->fetch("SELECT * FROM products WHERE sku = '{$data['sku']}'");
-
-        if ($existingProduct) {
-            return false;
-        }
-
-        $sql = "INSERT INTO products (sku, name, price, type, attribute) VALUES (?, ?, ?, ?, ?)";
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ssdss", $data['sku'], $data['name'], $data['price'], $data['type'], $data['attribute']);
-
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            $stmt->close();
-            return true;
-        } else {
-            $stmt->close();
-            return false;
-        }
+        return $this->connection->prepare($sql);
     }
 
     public function close()

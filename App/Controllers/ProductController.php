@@ -34,13 +34,13 @@ class ProductController
     {
         $data = $_POST;
         $productType = $_POST['productType'];
-
+    
         $productFactory = new ProductFactory();
         $product = $productFactory->createProduct($productType);
         
         $product->fillData($data);
-
-        if ($this->database->insertProduct($product)) {
+    
+        if ($product->save($this->database)) {
             header("Location: /scandiweb/products");
             exit();
         } else {
@@ -49,6 +49,7 @@ class ProductController
             exit();
         }
     }
+    
 
     public function delete()
     {
